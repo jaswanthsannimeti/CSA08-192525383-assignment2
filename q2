@@ -1,0 +1,122 @@
+
+# Q2 - Loops that Count Attempts
+# OTP Verification at a Bank Kiosk
+
+CORRECT_OTP = "1234"
+
+
+def check_security_question():
+    """Demonstrate pass as a placeholder."""
+    pass
+
+
+# ==========================================
+# METHOD 1: WHILE LOOP
+# ==========================================
+
+print("===== WHILE LOOP =====")
+
+attempts = 0
+max_attempts = 3
+verified = False
+
+while attempts < max_attempts:
+
+    otp = input("Enter OTP: ").strip()
+
+    # Blank entry does not count
+    if otp == "":
+        print("Blank entry. Try again.")
+        continue
+
+    # Correct OTP
+    if otp == CORRECT_OTP:
+        print("OTP verified successfully!")
+        verified = True
+        break
+
+    # Wrong OTP
+    attempts += 1
+    print("Incorrect OTP.")
+    print("Attempts used:", attempts)
+
+else:
+    print("Account locked for 30 minutes.")
+
+if verified:
+    print("Access granted.")
+
+
+# ==========================================
+# METHOD 2: FOR LOOP
+# ==========================================
+
+print("\n===== FOR LOOP =====")
+
+verified = False
+
+for attempt in range(3):
+
+    otp = input("Enter OTP: ").strip()
+
+    # Blank entry does not count
+    if otp == "":
+        print("Blank entry. Try again.")
+        continue
+
+    # Correct OTP
+    if otp == CORRECT_OTP:
+        print("OTP verified successfully!")
+        verified = True
+        break
+
+    print("Incorrect OTP.")
+    print("Attempts remaining:", 2 - attempt)
+
+else:
+    print("Account locked for 30 minutes.")
+
+if verified:
+    print("Access granted.")
+
+
+# ==========================================
+# CHANGED CONDITION: TWO EXTRA ATTEMPTS
+# ==========================================
+
+print("\n===== SECURITY QUESTION =====")
+
+security_answer = input(
+    "Answer security question (yes/no): "
+).strip().lower()
+
+if security_answer == "yes":
+    max_attempts = 5
+else:
+    max_attempts = 3
+
+attempts = 0
+verified = False
+
+while attempts < max_attempts:
+
+    otp = input("Enter OTP: ").strip()
+
+    if otp == "":
+        print("Blank entry. Try again.")
+        continue
+
+    if otp == CORRECT_OTP:
+        print("OTP verified successfully!")
+        verified = True
+        break
+
+    attempts += 1
+    print("Incorrect OTP.")
+    print("Attempts used:", attempts)
+
+else:
+    print("Account locked for 30 minutes.")
+
+if verified:
+    print("Access granted.")
