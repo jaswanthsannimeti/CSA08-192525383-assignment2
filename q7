@@ -1,0 +1,103 @@
+
+import time
+from functools import lru_cache
+
+# Original simple recursive method
+naive_calls = 0
+
+def ways_naive(n):
+    global naive_calls
+    naive_calls += 1
+
+    if n <= 1:
+        return 1
+
+    return ways_naive(n - 1) + ways_naive(n - 2)
+
+
+# Memoized recursive method
+memo_calls = 0
+
+@lru_cache(maxsize=None)
+def ways_memo(n):
+    global memo_calls
+    memo_calls += 1
+
+    if n <= 1:
+        return 1
+
+    return ways_memo(n - 1) + ways_memo(n - 2)
+
+
+# Redesigned iterative method
+def ways_iterative(n):
+    if n <= 1:
+        return 1
+
+    first = 1
+    second = 1
+
+    for i in range(2, n + 1):
+        first, second = second, first + second
+
+    return second
+
+
+print("===== Q7: DESIGN AND PERFORMANCE COMPARISON =====")
+
+test_values = [10, 20, 25, 30]
+
+for n in test_values:
+    naive_calls = 0
+    memo_calls = 0
+    ways_memo.cache_clear()
+
+    # Measure simple recursion
+    start = time.perf_counter()
+    naive_result = ways_naive(n)
+    naive_time = time.perf_counter() - start
+
+    # Measure memoized recursion
+    start = time.perf_counter()
+    memo_result = ways_memo(n)
+    memo_time = time.perf_counter() - start
+
+    # Measure iterative solution
+    start = time.perf_counter()
+    iterative_result = ways_iterative(n)
+    iterative_time = time.perf_counter() - start
+
+    print("\nNumber of steps:", n)
+    print("Naive result:", naive_result)
+    print("Memoized result:", memo_result)
+    print("Iterative result:", iterative_result)
+
+    print("All results equal:",
+          naive_result == memo_result == iterative_result)
+
+    print("Naive function calls:", naive_calls)
+    print("Memoized function calls:", memo_calls)
+
+    print(f"Naive time: {naive_time:.8f} seconds")
+    print(f"Memoized time: {memo_time:.8f} seconds")
+    print(f"Iterative time: {iterative_time:.8f} seconds")
+
+
+# Large input validation
+print("\n===== LARGE INPUT VALIDATION =====")
+
+large_n = 1000
+
+start = time.perf_counter()
+large_result = ways_iterative(large_n)
+large_time = time.perf_counter() - start
+
+print("Number of steps:", large_n)
+print("Iterative result calculated successfully.")
+print("Number of digits in result:", len(str(large_result)))
+print(f"Execution time: {large_time:.8f} seconds")
+
+print("\n===== FINAL DESIGN =====")
+print("The iterative method is selected.")
+print("Time complexity: O(n)")
+print("Extra space complexity: O(1)")
