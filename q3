@@ -1,0 +1,86 @@
+
+# Q3 - Vehicle Registration Number Validator
+
+def normalise(text):
+    """Remove spaces and hyphens and convert to uppercase."""
+    return text.replace(" ", "").replace("-", "").upper()
+
+
+def is_valid(reg):
+    """Check whether the registration number follows the valid format."""
+
+    if len(reg) not in (9, 10):
+        return False
+
+    state = reg[:2]
+    district = reg[2:4]
+    series = reg[4:-4]
+    vehicle_number = reg[-4:]
+
+    return (
+        state.isalpha()
+        and district.isdigit()
+        and len(series) in (1, 2)
+        and series.isalpha()
+        and vehicle_number.isdigit()
+    )
+
+
+def format_registration(reg):
+    """Format a valid registration number for a toll receipt."""
+
+    state = reg[:2]
+    district = reg[2:4]
+    series = reg[4:-4]
+    vehicle_number = reg[-4:]
+
+    return f"{state} {district} {series} {vehicle_number}"
+
+
+# Six test inputs
+test_numbers = [
+    "tn 09 ab 1234",
+    "KA-01-M-0007",
+    "Tn09Ab1234",
+    "TN9AB1234",
+    "TN 22 1234 AB",
+    "AP-39-C-5678"
+]
+
+print("===== VEHICLE REGISTRATION VALIDATOR =====")
+
+for raw in test_numbers:
+
+    reg = normalise(raw)
+
+    if is_valid(reg):
+        print(raw, "->", reg, "-> VALID")
+        print("Toll Receipt:", format_registration(reg))
+    else:
+        print(raw, "->", reg, "-> INVALID")
+
+    print()
+
+
+# Demonstration of string immutability
+text = "tn09ab1234"
+
+print("===== STRING IMMUTABILITY =====")
+print("Original text:", text)
+print("Uppercase text:", text.upper())
+print("Original text after upper():", text)
+
+
+# Demonstration of slicing
+print("\n===== STRING SLICING =====")
+
+nine_char = "TN09M1234"
+ten_char = "TN09AB1234"
+
+print("9-character number:", nine_char)
+print("Last four characters:", nine_char[-4:])
+print("Series:", nine_char[4:-4])
+
+print("\n10-character number:", ten_char)
+print("Last four characters:", ten_char[-4:])
+print("Series:", ten_char[4:-4])
