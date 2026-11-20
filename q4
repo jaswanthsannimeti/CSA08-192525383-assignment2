@@ -1,0 +1,65 @@
+
+# Q4 - Building Long Text: + or join()?
+
+import time
+
+
+# Method 1: Repeated +=
+def build_plus(parts):
+    text = ""
+
+    for p in parts:
+        text += p + ";"
+
+    return text
+
+
+# Method 2: Using join()
+def build_join(parts):
+    return ";".join(parts) + ";"
+
+
+# Method 3: Using f-strings
+def build_fstring(parts):
+    return "".join(f"{p};" for p in parts)
+
+
+# Measure average execution time
+def measure_time(function, items):
+    total_time = 0
+
+    for _ in range(3):
+        start = time.perf_counter()
+        result = function(items)
+        end = time.perf_counter()
+
+        total_time += end - start
+
+    average = total_time / 3
+
+    return average, result
+
+
+# Test different input sizes
+sizes = [1000, 10000, 200000]
+
+print("===== STRING PERFORMANCE COMPARISON =====")
+
+for size in sizes:
+
+    items = [
+        f"Item{i}:Rs{i % 50}"
+        for i in range(size)
+    ]
+
+    plus_time, a = measure_time(build_plus, items)
+    join_time, b = measure_time(build_join, items)
+    fstring_time, c = measure_time(build_fstring, items)
+
+    print("\nNumber of items:", size)
+    print("Same output:", a == b == c)
+    print("Output length:", len(a))
+
+    print(f"Plus operator average: {plus_time:.6f} seconds")
+    print(f"Join method average:   {join_time:.6f} seconds")
+    print(f"F-string average:      {fstring_time:.6f} seconds")
