@@ -1,0 +1,90 @@
+
+# Q5 - Functions, Parameters and Scope
+
+# Buggy function: uses a shared default list
+def add_item_buggy(item, order=[]):
+    order.append(item)
+    return order
+
+
+# Correct function: creates a new list for each customer
+def add_item(item, order=None):
+    if order is None:
+        order = []
+    order.append(item)
+    return order
+
+
+print("===== BUGGY FUNCTION =====")
+print(add_item_buggy("Tea"))
+print(add_item_buggy("Vada"))
+print("Default values:", add_item_buggy.__defaults__)
+
+print("\n===== CORRECT FUNCTION =====")
+customer1 = add_item("Tea")
+customer2 = add_item("Vada")
+customer3 = add_item("Coffee")
+
+print("Customer 1 Order:", customer1)
+print("Customer 2 Order:", customer2)
+print("Customer 3 Order:", customer3)
+
+
+# Positional, keyword and default parameters
+def display_order(customer, item="Tea"):
+    print(customer, "ordered", item)
+
+
+print("\n===== PARAMETER TYPES =====")
+display_order("Customer 1", "Burger")  # Positional arguments
+display_order(customer="Customer 2", item="Pizza")  # Keyword arguments
+display_order("Customer 3")  # Default parameter
+
+
+# Returning multiple values
+def calculate_bill(amount, gst_rate=5):
+    gst = amount * gst_rate / 100
+    total = amount + gst
+    return total, gst
+
+
+print("\n===== RETURNING MULTIPLE VALUES =====")
+total, gst = calculate_bill(200)
+print("GST Amount: Rs.", gst)
+print("Total Bill: Rs.", total)
+
+
+# Local and global scope
+canteen_name = "SIMATS Canteen"
+customer_count = 0
+
+
+def serve_customer():
+    global customer_count
+    customer_count += 1
+
+    local_message = "Customer served successfully"
+    print(local_message)
+
+
+print("\n===== LOCAL AND GLOBAL SCOPE =====")
+serve_customer()
+serve_customer()
+print("Canteen:", canteen_name)
+print("Total Customers Served:", customer_count)
+
+
+# Nonlocal scope
+def outer_function():
+    message = "Order received"
+
+    def inner_function():
+        nonlocal message
+        message = "Order prepared"
+
+    inner_function()
+    return message
+
+
+print("\n===== NONLOCAL SCOPE =====")
+print(outer_function())
