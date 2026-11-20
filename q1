@@ -1,0 +1,80 @@
+
+# Q1 - Electricity Subsidy Eligibility
+
+households = [
+    ("H1", 80, False, False),
+    ("H2", 100, False, False),
+    ("H3", 101, True, False),
+    ("H4", 150, False, False),
+    ("H5", 200, True, False),
+    ("H6", 200, False, False),
+    ("H7", 201, False, True),
+    ("H8", 250, True, False)
+]
+
+# Method 1: Separate If Statements
+print("===== SEPARATE IF STATEMENTS =====")
+
+for name, units, ration_card, elderly in households:
+
+    print(name, end=": ")
+
+    if units <= 100:
+        print("Full subsidy", end=" | ")
+
+    # Deliberately overlapping condition
+    if 100 <= units <= 200 and ration_card:
+        print("Partial subsidy", end=" | ")
+
+    if 101 <= units <= 200 and not ration_card:
+        print("No subsidy", end=" | ")
+
+    if units > 200 and elderly:
+        print("Special subsidy", end=" | ")
+
+    if units > 200 and not elderly:
+        print("No subsidy", end="")
+
+    print()
+
+
+# Method 2: If-Elif-Else Statements
+print("\n===== IF-ELIF-ELSE STATEMENTS =====")
+
+for name, units, ration_card, elderly in households:
+
+    if units <= 100:
+        decision = "Full subsidy"
+
+    elif 101 <= units <= 200 and ration_card:
+        decision = "Partial subsidy"
+
+    elif 101 <= units <= 200 and not ration_card:
+        decision = "No subsidy"
+
+    elif units > 200 and elderly:
+        decision = "Special subsidy"
+
+    else:
+        decision = "No subsidy"
+
+    print(name, "-", units, "units:", decision)
+
+
+# Boundary Condition Verification
+print("\n===== BOUNDARY CONDITION VERIFICATION =====")
+
+boundary_values = [100, 101, 200, 201]
+
+for units in boundary_values:
+
+    if units <= 100:
+        result = "Full subsidy"
+
+    elif 101 <= units <= 200:
+        result = "Partial subsidy if ration card is available"
+
+    else:
+        result = "No subsidy unless member above 80"
+
+    print(units, "units:", result)
